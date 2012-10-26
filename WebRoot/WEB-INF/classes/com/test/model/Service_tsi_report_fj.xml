@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+  "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+  
+<sqlMap namespace="Service_tsi_report_fjSpace">
+	<cacheModel id="Service_tsi_report_fjCache" type="OSCACHE">
+		<flushInterval hours="24" />
+		<property name="size" value="1000"/>
+	</cacheModel>
+	
+	<typeAlias alias="service_tsi_report_fj" type="com.test.model.Service_tsi_report_fj" />
+	
+	<resultMap class="service_tsi_report_fj" id="serviceResultMap">
+		<result property="tsif_ticket_id" column="TSIF_TICKET_ID"/>
+		<result property="tsif_serial_no" column="TSIF_SERIAL_NO"/>
+		<result property="tsif_fj_path" column="TSIF_FJ_PATH"/>
+		<result property="tsif_fj" column="TSIF_FJ"
+			typeHandler="org.springframework.orm.ibatis.support.BlobByteArrayTypeHandler"
+		/>
+		<result property="tsif_fj_size" column="TSIF_FJ_SIZE"/>
+		<result property="tsif_fj_name" column="TSIF_FJ_NAME"/>
+	</resultMap>
+	
+	<select id="getService_tsi_report_fjList" parameterClass="java.util.Map"  cacheModel="Service_tsi_report_fjCache" resultMap="serviceResultMap">
+		SELECT * FROM  SERVICE_TSI_REORT_FJ WHERE 1=1
+		<dynamic>
+			<isNotEmpty prepend="AND" property="TSIF_TICKET_ID">
+				TSIF_TICKET_ID=#TSIF_TICKET_ID:VARCHAR#
+			</isNotEmpty>
+		</dynamic>
+	</select>
+</sqlMap>
